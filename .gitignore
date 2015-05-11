@@ -4,6 +4,7 @@
 /log/*.log
 /tmp
 .DS_Store
+dump.rdb
 /public/images/engravings/
 /.idea
 /.capistrano
