@@ -1,0 +1,26 @@
+<div class="engraving-score" data-engraving-id="<%= engraving.id %>" data-engraving-state="<%= engraving.state %>">
+  <% if engraving.state.nil? %>
+  <div class="engraving-stub">
+    <div id="overlay">
+      <div id="overlay-text">
+        <p><small>(Preview of your work will appear here.)</small></p>
+        <p>Not sure where to start?<br>Try our <%= link_to "introductory guide", guide_path %>.</p>
+      </div>
+    </div>
+  </div>
+  <% elsif engraving.state == "new" %>
+  <div class="loader-container">
+    <%= image_tag "loader.gif", alt: "rendering", class: "loader loader-rendering" %>
+    <p>Hold on, it's rendering.</p>
+  </div>
+  <% elsif engraving.state == "error" %>
+  <h4>Something's wrong with your code.</h4>
+  <ul class="error-list">
+    <% parse_errors(engraving.error).each do |e| %>
+    <li><%= e %></li>
+    <% end %>
+  </ul>
+  <% else %>
+  <%= image_tag engraving.url, alt: "engraving #{engraving.id}", class: "img-responsive" %>
+  <% end %>
+</div>

@@ -1,0 +1,37 @@
+<% provide :title, "New Engraving" %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-offset-1 col-lg-5 col-md-6 col-sm-12 col-xs-12">
+      <section class="section-code">
+        <h3>Write some LilyPond</h3>
+        <%= form_for @engraving, url: engravings_path, method: :post do |f| %>
+        <!-- make this textarea hidden and update it in js -->
+        <%= f.text_area :text, class: "form-control form-hidden" %>
+        <div class="input-wrapper clearfix">
+          <div id="ace-new-engraving"></div>
+        </div>
+        <div class="panel-new-engraving">
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <!-- same with checkbox -->
+            <%= f.check_box :is_private, class: "form-hidden" %>
+            <div class="btn btn-checkbox btn-private">Private</div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <%= f.submit 'Preview', class: 'btn', name: 'preview' %>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <%= f.submit 'Publish', class: 'btn btn-publish', name: 'publish' %>
+          </div>
+        </div>
+        <% end %>
+      </section>
+    </div>
+
+    <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+      <section class="section-engraving">
+        <h3>Engrave it</h3>
+        <%= render partial: "engraving_score", locals: { engraving: @engraving } %>
+      </section>
+    </div>
+  </div>
+</div>

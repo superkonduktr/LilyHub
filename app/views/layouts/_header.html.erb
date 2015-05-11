@@ -1,0 +1,21 @@
+<header class="header-navbar">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-offset-1 col-lg-5 col-md-6 col-sm-12 col-xs-12">
+        <div class="navbar-brand">
+          <%= link_to "Lilyhub", root_path %>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <nav class="header-links">
+          <ul>
+            <li><%= link_to "Create", new_engraving_path, id: "header-link-create" %></li>
+            <li><%= link_to "Browse", engravings_path, id: "header-link-browse" %></li>
+            <li><%= link_to "Guide", guide_path, id: "header-link-guide" %></li>
+            <li><%= link_to "About", about_path, id: "header-link-about" %></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>

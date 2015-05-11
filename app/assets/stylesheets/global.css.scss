@@ -1,0 +1,124 @@
+/* FONTS */
+@import url(http://fonts.googleapis.com/css?family=Oxygen);
+@import url(http://fonts.googleapis.com/css?family=Lobster);
+@import url(http://fonts.googleapis.com/css?family=Pacifico);
+
+$font-family-sans-serif: Oxygen, "Open Sans", Helvetica, sans-serif !default;
+$font-family-body: Oxygen, Helvetica, sans-serif;
+$font-family-code: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace;
+
+/* COLORS */
+
+$color-code-bg: #333;
+$color-engraving-stub-bg: #f8f8f8;
+
+$color-bg: #fff;
+$color-main: #77b3c7;
+$color-alt: #e18870;
+$color-code-bg: #2d2d2d;
+
+/* GENERAL */
+
+body {
+  font-family: $font-family-body;
+  font-size: 16px;
+  line-height: 1.6em;
+  background: #fff;
+}
+
+.row {
+  padding: 10px 0;
+}
+
+h1 {
+  margin: 60px 0 40px;
+}
+
+h2, h3 {
+  margin: 60px 0 35px;
+  font-weight: bold;
+}
+
+h4, h5, h6 {
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+a {
+  color: darken($color-main, 10%);
+  &:hover, &:focus {
+    color: lighten($color-main, 10%);
+    text-decoration: none;
+  }
+}
+
+p {
+  margin: 10px 0 20px;
+}
+
+/* CODE */
+
+@mixin style-code {
+  font-family: $font-family-code;
+  font-size: 0.865em;
+  background: $color-code-bg;
+  color: lighten($color-code-bg, 90%);
+  text-shadow: none;
+}
+
+.code {
+  @include style-code;
+}
+
+pre {
+  border-radius: 0;
+  border: 0;
+  padding: 15px 25px;
+  margin: 20px 0;
+  background: lighten($color-alt, 32%);
+
+}
+
+code {
+  color: darken($color-alt, 10%);
+  background: lighten($color-alt, 32%);
+}
+
+/* BUTTONS */
+
+.btn {
+  padding: 10% 10%;
+  text-align: center;
+  border: 1px solid #aaa;
+  border-radius: 0;
+  background: #fff;
+  width: 100%;
+  font-size: 1em;
+  &:hover {
+    background: #eee;
+    cursor: pointer;
+  }
+}
+
+.btn-publish {
+  color: lighten($color-alt, 80%);
+  background: $color-alt;
+  border: 1px solid darken($color-alt, 3%);
+  &:hover {
+    color: lighten($color-alt, 80%);
+    background: darken($color-alt, 8%);
+    border: 1px solid darken($color-alt, 10%);
+  }
+}
+
+.btn-checkbox.checked {
+  background: lighten($color-main, 10%);
+  color: lighten($color-main, 80%);
+  border: 1px solid lighten($color-main, 7%);
+}
+
+/* FORM CRUTCHES */
+
+.form-hidden {
+  display: none;
+}

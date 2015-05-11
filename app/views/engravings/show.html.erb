@@ -1,0 +1,13 @@
+<% provide :title, "##{@engraving.id}" %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-offset-1 col-lg-6 col-md-8 col-sm-12 col-xs-12">
+      <h2>#<%= @engraving.id %></h2>
+      <% if @engraving.is_private %>
+        <h4><em>(private)</em></h4>
+      <% end %>
+      <%= render partial: "engraving", locals: { engraving: @engraving } %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+@import 'global';
+
+/* RESPONSIVE */
+
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
+
+
+@media (max-width: $screen-md-min) {
+  body {
+    font-size: 2em;
+  }
+
+  .navbar-brand {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+  }
+
+  .header-links ul {
+    text-align: center;
+  }
+}

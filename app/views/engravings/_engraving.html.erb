@@ -1,0 +1,27 @@
+<div class="engraving-container clearfix">
+  <header class="clearfix">
+    <small>
+      <%= link_to engraving.id, engraving_path(id: engraving.id), class: "engraving-id" %>
+    </small>
+    <small class="when pull-right"><%= created_time_ago(engraving) %></small>
+  </header>
+  <div class="engraving-body">
+    <%= render partial: "engraving_score", locals: { engraving: engraving } %>
+  </div>
+  <div class="engraving-code">
+    <span class="glyphicon glyphicon-remove pull-right"></span>
+    <pre class="hidden"><%= engraving.text %></pre>
+    <div class="engraving-ace" id="engraving-code-<%= engraving.id %>"></div>
+  </div>
+  <div class="engraving-share">
+    <small><%= engraving_url(engraving.id) %></small>
+  </div>
+  <div class="engraving-control-panel">
+    <ul class="list-inline">
+      <li>
+        <a href="" class="toggle-code">Show code</a>
+      </li>
+      <li><a href="" class="toggle-share">Share</a></li>
+    </ul>
+  </div>
+</div>

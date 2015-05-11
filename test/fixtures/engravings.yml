@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  text: MyText
+  state: MyText
+  error: MyText
+  is_private: false
+
+two:
+  text: MyText
+  state: MyText
+  error: MyText
+  is_private: false

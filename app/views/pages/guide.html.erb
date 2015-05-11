@@ -1,0 +1,526 @@
+<% provide :title, "Guide" %>
+
+<div class="container">
+  <div class="row">
+    <section id="section-guide" class="col-lg-offset-1 col-lg-7 col-md-8 col-sm-12 col-xs-12">
+      <article id="guide-introduction">
+        <h1>A Quick Introductory Guide</h1>
+        <p>This humble guide is by no means comprehensive and complete. Rather, it is a brief, succinct introduction to the language of LilyPond. It won't turn you into a LilyPond maestro, but it will hopefully be enough to get you excited. After you scroll through it and get a hang of the basics, we advice you to go ahead and explore the amazing <a href="http://lilypond.org/doc/v2.18/Documentation/learning/index.html">LilyPond Learning Manual</a> and <a href="http://www.lilypond.org/doc/v2.18/Documentation/web/manuals">other documentation</a> on the official site.</p>
+      </article>
+      <article id="guide-syntax">
+        <h2>Syntax</h2>
+        <section id="guide-syntax-commands">
+          <h3>Commands and Expressions</h3>
+          <p>Let's start by looking at a simple example:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="ace-readonly guide-example-code">\version "2.18.2"
+% My first engraving!
+\relative c' {
+  c d e2
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example1-1.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>The first line of the file, by convention, contains a version statement. LilyHub uses version 2.18.2, the latest stable release of LilyPond. If you forget to include a version statement, LilyHub will do that for you automatically.</p>
+          <p>Line 2 contains a comment. People will be able to read it in your code, but LilyPond will not, and it will leave no effect on the engraved sheet. One-line comments start with <code>%</code> and span till the end of the line, multi-line comments are contained within <code>%{</code> and <code>%}</code> delimiters, which can be separated by any number of lines.</p>
+          <p>Next goes an expression. Expressions are the working horses of LilyPond. They contain notes and/or lyrics and are always surrounded by <code>{</code> curly braces <code>}</code>. Expressions may be preceded by a command starting with a backslash <code>\</code>, as in our case.</p>
+          <p>Expressions can be either stacked or nested. Unless expressions represent <a href="#guide-polyphony-staves">multiple staves</a>, LilyPond renders them as a sequence. These two snippets are interpreted as identical sequences:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">{ { c } { d e2 } }</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example1-2.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">{ { c { d e2 } }</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example1-2.png", class: "img-responsive" %>
+            </div>
+          </div>
+      </section>
+      <section id="guide-syntax-sensitivity">
+        <h3>Sensitivity</h3>
+        <p>LilyPond is case sensitive and whitespace insensitive. In this example we neglect the case and get an error message (notice how 'wrong' syntax is no longer highlighted):</p>
+        <div class="code-wrapper"><div class="guide-example-code">\Version "2.18.2"
+\relative c' {
+  C D e2
+}</div></div>
+        <ul class="error-list">
+          <li>line1: unknown escaped string: `\Version'</li>
+          <li>line1: not a symbol</li>
+          <li>line2: syntax error, unexpected MUSIC_FUNCTION, expecting '='</li>
+          <li>line3: unrecognized string, not in text script or \lyricmode</li>
+          <li>line3: unrecognized string, not in text script or \lyricmode</li>
+        </ul>
+        <p>But flooding our code with spaces won't bother LilyPond much (although readers of this code will rightfully curse its author):</p>
+        <div class="row">
+          <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative    c' {c           d
+
+e
+
+}</div></div>
+          <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example1-3.png", class: "img-responsive" %>
+          </div>
+        </div>
+        <p>(For the purpose of brevity, the <code>\version</code> declaration is omitted in this and further examples.)</p>
+      </section>
+      <article id="guide-notation">
+        <h2>Notation</h2>
+        <section id="guide-notation-pitch">
+          <h3>Pitch, Duration, Accidentals</h3>
+          <p>We denote note names with letters in the range from <code>a</code> to <code>g</code>, plus <code>r</code> for a rest. Those can be followed by:</p>
+          <ul>
+            <li>one or more single quotes <code>'</code> for octave raise;</li>
+            <li>one or more commas <code>,</code> to lower octave;</li>
+            <li>a number: <code>1</code>, <code>2</code>, <code>4</code>... up to <code>128</code>, signifying duration (<code>1</code> is for a whole note, <code>2</code> is for a half, etc.);</li>
+            <li>a dot <code>.</code> for a dotted note.</li>
+          </ul>
+          <p>Combining it all together:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">{
+  c'8 d' e'4 r8. g'16 d'4
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-1.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>As you can see, we use a lot of quotes to get the right pitch (this is especially the case with the treble clef). It happens because our input is in absolute mode. When absolute mode is in effect, each note expression, such as <code>a'</code> or <code>f,,</code> represents a concrete, absolute pitch that never changes.</p>
+          <p>Contrarily, the relative mode lets notes decide for themselves which octave to cling to. To set the relative mode, just add a <code>\relative</code> command followed by a starting pitch (like <code>c'</code>)  before the opening curly brace. That will tell other notes to choose their octaves on their own in accordance with the previous note. Let's rewrite our example:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  c8 d e4 r8. g16 d4
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-1.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>Doesn't it look nicer? Relative mode keeps our expressions cleaner and, arguably, easier to read, although writing it may involve some trial-and-error approach in the beginning.</p>
+          <p>We saw how notes without a number are interpreted as quarter notes by default. But what about the example above, where <code>d</code> is rendered as an eighth, though we didn't write its duration explicitly? That happens because notes get their durations from the preceding notes (<code>c8</code> in our example). Each number sets a new duration context that ‘eats up' all the subsequent notes, until another duration is set.</p>
+          <p>Sharps and flats are added with appending <code>is</code> and <code>es</code> to the note respectively:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">{
+  cis'8  aes,4
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-2.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>There is no dedicated command for a natural symbol. LilyPond creates naturals automatically.</p>
+        </section>
+        <section id="guide-notation-time">
+          <h3>Time Signature, Tempo, Clef</h3>
+          <p>Time signatures are added with <code>\time</code> command followed by a fraction.</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  \time 3/4
+  c8 d e4 r8. g16
+  e4 d r8. g16
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-3.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>Similarly, we can set tempo and clef with <code>\tempo</code> and <code>\clef</code> commands:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c {
+  \clef "bass"
+  \time 3/4
+  \tempo "Vivace" 4 = 135
+  c8 d e4 r
+  a,8 d e4 r
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-4.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>All of the above is explained in more detail in <a href="http://www.lilypond.org/doc/v2.18/Documentation/learning/simple-notation#pitches">the Learning Manual</a>.</p>
+        </section>
+        <section id="guide-notation-bar-lines">
+          <h3>Bar Lines</h3>
+          <p>Bar lines are added with <code>\bar</code> command, followed by the type of bar line inside double quotes:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c'' {
+  a1 \bar "||"
+  f1 \bar "|."
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-5.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>LilyPond can render you just <a href="http://www.lilypond.org/doc/v2.18/Documentation/notation/bars#bar-lines">any sort of bar line imaginable</a>.</p>
+          <p>LilyPond breaks your input into bars automatically, so there is no need to manually insert regular lines like so: <code>\bar "|"</code>.  However, for the sake of readability, it is conventional to add unquoted bar lines <code>|</code> where bars are expected to end and begin:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  \time 4/4
+  a1 | f2 e4 d4 | e1 | f2 e4 d4
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-6.png", class: "img-responsive" %>
+            </div>
+          </div>
+        </section>
+        <section id="guide-notation-key-signatures">
+          <h3>Key Signature</h3>
+          <p>Key signatures are defined with <code>\key</code>, <code>\major</code>, or <code>\minor</code> commands, with a pitch inbetween.</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">{
+  \key d \major
+  cis'4 d' e' fis'
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-7.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>One thing to keep in mind is that key signature does not affect note's pitch; only printed accidentals are changed. This issue is explained in detail <a href="http://www.lilypond.org/doc/v2.18/Documentation/learning/accidentals-and-key-signatures#warning-key-signatures-and-pitches">here</a>.</p>
+        </section>
+        <section id="guide-notation-ties">
+          <h3>Ties, Slurs, Beams, Dynamics</h3>
+          <p>Ties are set by appending <code>~</code> to the first note being tied:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  a8~ a4 b8~ b2
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-8.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>Slurs look similar, but their syntax is different. With slurs, both tied notes are specified with <code>(</code> and <code>)</code>.</p>
+          <p>Phrasing slurs are drawn with <code>\(</code> and <code>\)</code>.</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  a8( a4 b8) b2
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-9.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  \time 3/4
+  d2\( g8( a) b( c) b2\)
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-10.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>Beams in LilyPond are added automatically. In case you want to override automatic beams, insert <code>[</code> and <code>]</code> after the notes. You can also manage automatic beaming with <code>\autoBeamOn</code> and <code>\autoBeamOff</code> commands. Consider these three pieces:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  c8 e a g
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-11.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  \autoBeamOff
+  c8 e a g
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-12.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  c8[ e] a[ g]
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-13.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>Handling dynamic signs is quite straightforward: just add <code>\f</code>, <code>\mf</code>, <code>\pp</code> etc. to the note:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  c8\mp e c e c\p e c e
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-14.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>To draw crescendo or decrescendo, use <code>\<</code> and <code>\></code>. Crescendo is ended by a dynamic sign command like <code>\f</code>, unless parser finds a <code>\!</code> command.</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  c8\< e c\mp\> e c e c e\!
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example2-15.png", class: "img-responsive" %>
+            </div>
+          </div>
+        </section>
+      </article>
+      <article id="guide-polyphony">
+        <h2>Polyphony</h2>
+        <section id="guide-polyphony-staves">
+          <h3>Multiple staves</h3>
+          <p>We have mentioned above that LilyPond expressions are processed sequentially. But what if one staff isn't enough and what we want is a polyphonic score with multiple staves?</p>
+          <p>To draw two or more staves played simultaneously, we use <code><<</code> and <code>>></code>:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  <<
+    { r2 f4 d }
+    { c2 c }
+  >>
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example3-1.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>Wouldn't it be great if could set key signatures and clefs for individual staves? To do that, we ask the <code>\new</code> command to introduce a <em>context</em> for each expression. Here, we need a <code>Staff</code> context:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  <<
+    \new Staff {
+      \clef "treble"
+      \key g \major
+      r2 f4 d
+    }
+    \new Staff {
+      \clef "bass"
+      c,2 c
+    }
+  >>
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example3-2.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>Contexts are independent. Events defined inside a context do not apply to other contexts, with the exception of <code>\time</code> event, which is sort of a global parameter that can be only defined once.</p>
+          <p>Other possible contexts include <code>Score</code>, <code>Voice</code>, <code>Lyrics</code>, <code>ChordNames</code> (note the case), as well as staff grouping commands like <code>PianoStaff</code> that connects staves with a brace:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c'' {
+  \new PianoStaff <<
+    \new Staff {
+      \time 3/4
+      b8 a b2 | b8 a b2 |
+    }
+    \new Staff {
+    \clef "bass"
+    c,,4 e g | c,, e g |
+    }
+  >>
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example3-3.png", class: "img-responsive" %>
+            </div>
+        </div>
+        </section>
+        <section id="guide-polyphony-chords">
+          <h3>Chords</h3>
+          <p>Chord syntax looks a lot like polyhonic input. To combine notes in a chord, wrap them in <code><</code> single angle brackets <code>></code>:</p>
+          <div class="row">
+            <div class="code-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="guide-example-code">\relative c' {
+  \time 3/4
+  &lt;c f a>4 &lt;f c' e>( &lt;f c' e>8) e
+}</div></div>
+            <div class="example-img-wrapper col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <%= image_tag "examples/example3-4.png", class: "img-responsive" %>
+            </div>
+          </div>
+          <p>You can think of LilyPond chords as single notes. Everything you would typically hang up on a note, like duration or beam, must go outside the angle brackets. The only exception is octave shift markings: those guys stay inside the angles.</p>
+        </section>
+        <section id="guide-polyphony-lyrics">
+          <h3>Lyrics</h3>
+          <p>Lyrics are treated like additional staves, and therefore are handled by polyphonic <code><<</code> double angles <code>>></code>. They also require the <code>\addlyrics</code> command:</p>
+          <div class="code-wrapper"><div class="guide-example-code"><<
+  \relative c' {
+    \time 4/4
+    r g8 c a c4 c8 | d e d e d c a g
+  }
+  \addlyrics {
+    San ta ba by, just | slip a sab le un der the tree
+  }
+>></div></div>
+          <div class="example-img-wrapper">
+            <%= image_tag "examples/example3-5.png", class: "img-responsive" %>
+          </div>
+          <p>The most common case is when one sung syllable is set for one note. To enable such one-to-one relation, words are broken into syllables with spaces, as in the example above. If more than one syllable must be assigned to one note, use underscores <code>_</code> like so: <code>san_ta</code>. Stretching syllables to melismas or multiple notes can also be done with undescores.</p>
+          <p>Adding lyrics to your LilyPond file may yield somewhat unexpected results. Techniques for dealing with them are outside of the scope of this guide. For troubleshooting, as always, refer to your best friend, <a href="http://www.lilypond.org/doc/v2.18/Documentation/learning/aligning-lyrics-to-a-melody">the Learning Manual</a>.</p>
+        </section>
+      </article>
+      <article id="guide-structure">
+        <h2>Style and Structure</h2>
+        <section id="guide-structure-titles">
+          <h3>Titles</h3>
+          <p>To add title to a score, use the <code>\header</code> command. Insert relevant information with the following syntax:</p>
+          <div class="code-wrapper"><div class="guide-example-code">\header {
+  title = "My Awesome Song"
+  composer = "Myself"
+}</div></div>
+          <p><code>\header</code> is placed between the <code>\version</code> declaration and the main piece. <a href="#guide-summary-learned">The example in the Summary section</a> demonstrates a typical usage of this structure.</p>
+        </section>
+        <section id="guide-structure-variables">
+          <h3>Variables</h3>
+          <p>Variables are usually named in <a href="http://en.wikipedia.org/wiki/CamelCase">lowerCamelCase</a>. They can contain different types of data, such as strings: <code>title = "My Song"</code>, or numbers: <code>width = 5\cm</code>. In most cases, though, we would employ variables to store music expressions: <code>myMusic = { c d e }</code>.</p>
+          <p>After a variable is assigned, we can make use of it by putting a backslash <code>\</code> in front of it. Here is what our 'Santa' example would look like with the use of variables:</p>
+          <div class="code-wrapper"><div class="guide-example-code">santaMelody = \relative c' {
+  r g8 c a c4 c8 | d e d e d c a g
+}
+
+santaLyrics = \lyricmode {
+  San ta ba by, just | slip a sab le un der the tree
+}
+
+\score {
+  <<
+    \new Voice = "santa" {
+      \time 4/4
+      \santaMelody
+    }
+    \new Lyrics \lyricsto "santa" {
+      \santaLyrics
+    }
+  >>
+}</div></div>
+          <div class="example-img-wrapper">
+            <%= image_tag "examples/example3-5.png", class: "img-responsive" %>
+          </div>
+          <p>This may look a bit bloated for such a tiny piece, but imagine having instead a large suite with a dozen voices. Without variables such a code would likely become an impenetrable jungle of backslashes, indents and braces.</p>
+        </section>
+        <section id="guide-structure-structuring">
+          <h3>Structuring</h3>
+          <p>Note the new commands introduced in the previous example. Lyrics handlers <code>\new Lyrics</code> and <code>\lyricsto</code> are indispensable when wrapping variables around lyrics.</p>
+          <p>The <code>\score</code> command defines one of the LilyPond hierarchy levels. In fact, it is used in any LilyPond input, including all the examples in this guide. Whenever we create a code, LilyPond fills up the missing levels of that hierarchy. When we ask LilyPond to render a simple expression <code>{ c d e }</code>, the entire hierarchy is being reconstructed under the hood:</p>
+          <div class="code-wrapper"><div class="guide-example-code">\book {
+  \score {
+    \new Staff {
+      \new Voice {
+        c d e
+      }
+    }
+  }
+  \new Layout { }
+}</div></div>
+          <p>It is important to note that <code>\score</code> can contain only one music expression. (<code>\header</code> and <code>\layout</code> aren't considered music expressions so they are allowed to be included in <code>\score</code> alongside music input). That means that polyphonic input is inserted into <code>\score</code> as a single compound expression:</p>
+          <div class="code-wrapper"><div class="guide-example-code">\score {
+  <<
+    \voiceOne
+    \voiceTwo
+    % ...
+    \voiceEightyFive
+  >>
+}</div></div>
+          <p>See <a href="http://www.lilypond.org/doc/v2.18/Documentation/notation/input-structure">the Learning Manual article</a> about input structure for more details on file structuring.</p>
+        </section>
+      </article>
+      <article id="guide-summary">
+        <h2>Summary</h2>
+        <section id="guide-summary-learned">
+          <h3>What we've learned</h3>
+          <p>Let's put all the newly acquired skills into practice and draw a couple of classic lines.</p>
+          <div class="code-wrapper"><div class="guide-example-code">\version "2.18.2"
+
+global = {
+  \key a \major
+  \time 4/4
+}
+
+melody = \relative c'' {
+  \clef treble
+  \global
+  \tempo "Moderately slow" 4 = 92
+
+  r8 cis cis[ cis] cis cis4 cis8 |
+  d4 b8 a~ a gis4. |
+  r1 |
+  r1
+}
+
+text = \lyricmode {
+  Show me the mea ning of | be ing lo nely
+}
+
+upper = \relative c' {
+  \clef treble
+  \global
+
+  r8 &lt;fis a cis>8\mp &lt;fis a cis>8[ &lt;fis a cis>8]
+    &lt;fis a cis>8 &lt;fis a cis>4 &lt;fis a cis>8 |
+  &lt;fis a d>4 &lt;d fis b>8 &lt;b e a>~
+    &lt;b e a> &lt;b e gis>4 fis'16 gis |
+  &lt;cis, fis a>2. fis8 gis |
+  &lt;d fis a>4 cis'8 &lt;e, gis b>~ &lt;e gis b>
+    a &lt;b, e gis> &lt;a cis fis>
+}
+
+lower = \relative c {
+  \clef bass
+  \global
+
+  r8 fis~ fis2. |
+  d2 e |
+  fis1 |
+  d2 e4. e8
+}
+
+\header {
+  title = "SHOW ME THE MEANING OF BEING LONELY"
+  composer = "M. Martin, H. Crichlow"
+}
+
+\score {
+  <<
+    \chords { fis1:m | d2 e2 | fis1:m | d2 e2 }
+    \new Voice = "mel" { \melody }
+    \new Lyrics \lyricsto mel \text
+    \new PianoStaff <<
+      \new Staff = "upper" \upper
+      \new Staff = "lower" \lower
+    >>
+  >>
+}</div></div>
+          <div class="example-img-wrapper">
+            <%= image_tag "examples/example5-1.png", class: "img-responsive" %>
+          </div>
+        </section>
+        <section id="guide-summary-bye">
+          <h3>To Infinity and Beyond</h3>
+          <p>There is nothing you can't do with LilyPond.</p>
+          <p>We barely scratched the surface of this incredible tool's functionality. With moving on to engraving more complex stuff, the learning curve may get steeper, but fear not: for every step you make, there are <a href="http://lilypond.org/manuals.html">tons of high quality material</a> to refer to.</p>
+          <p><%= link_to "Have fun", root_path %>.</p>
+        </section>
+      </article>
+    </section>
+    <nav id="affix-nav" class="sidebar col-lg-3 col-md-4 hidden-xs hidden-sm">
+      <ul class="nav sidenav" data-spy="affix" data-offset-top="10">
+        <li class="active"><a href="#guide-syntax">Syntax</a>
+          <ul class="nav">
+            <li><a href="#guide-syntax-commands">Commands and Expressions</a></li>
+            <li><a href="#guide-syntax-sensitivity">Sensitivity</a></li>
+          </ul>
+        </li>
+        <li><a href="#guide-notation">Notation</a>
+          <ul class="nav">
+            <li><a href="#guide-notation-pitch">Pitch, Duration, Accidentals</a></li>
+            <li><a href="#guide-notation-time">Time Signature, Tempo, Clef</a></li>
+            <li><a href="#guide-notation-bar-lines">Bar Lines</a></li>
+            <li><a href="#guide-notation-key-signatures">Key Signature</a></li>
+            <li><a href="#guide-notation-ties">Ties, Slurs, Beams, Dynamics</a></li>
+          </ul>
+        </li>
+        <li><a href="#guide-polyphony">Polyphony</a>
+          <ul class="nav">
+            <li><a href="#guide-polyphony-staves">Multiple Staves</a></li>
+            <li><a href="#guide-polyphony-chords">Chords</a></li>
+            <li><a href="#guide-polyphony-lyrics">Lyrics</a></li>
+          </ul>
+        </li>
+        <li><a href="#guide-structure">Style and Structure</a>
+          <ul class="nav">
+            <li><a href="#guide-structure-titles">Titles</a></li>
+            <li><a href="#guide-structure-variables">Variables</a></li>
+            <li><a href="#guide-structure-structuring">Structuring</a></li>
+          </ul>
+        </li>
+        <li><a href="#guide-summary">Summary</a>
+          <ul class="nav">
+            <li><a href="#guide-summary-learned">What We've Learned</a></li>
+            <li><a href="#guide-summary-bye">To Infinity and Beyond</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

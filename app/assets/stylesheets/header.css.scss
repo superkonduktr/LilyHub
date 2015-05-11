@@ -1,0 +1,49 @@
+@import 'global';
+
+/* NAVBAR */
+
+.header-navbar {
+  border-radius: 0;
+  background: #333;
+  color: #ddd;
+
+}
+
+.navbar-brand {
+  a {
+    font-family: Pacifico, Lobster, Georgia, serif;
+    font-size: 3em;
+    color: $color-main;
+    &:hover {
+      text-decoration: none;
+      color: darken($color-main, 10%);
+    }
+  }
+  margin: 25px 0;
+}
+
+.header-links {
+  ul {
+    list-style-type: none;
+    margin: 8% 0;
+    font-size: 1.1em;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    margin: 0 1em;
+  }
+  a {
+    color: #aaa;
+    &:hover{
+      color: #eee;
+      text-decoration: none;
+    }
+    &.active {
+      color: lighten($color-main, 10%);
+      &:hover{
+      color: lighten($color-main, 20%);
+    }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  pool: 5
+  username: <%= ENV["LH_DB_USERNAME"] %>
+  password: <%= ENV["LH_DB_PASSWORD"] %>
+
+development:
+  <<: *default
+  database: lilyhub_dev
+
+test:
+  <<: *default
+  database: lilyhub_test
+
+production:
+  <<: *default
+  database: lilyhub_prod
